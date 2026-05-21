@@ -1,5 +1,5 @@
-using test_backend.Routes;
-using test_backend.Services;
+using NetCoreTemplate.Routes;
+using NetCoreTemplate.Services;
 
 // Create Builder
 var builder = WebApplication.CreateBuilder(args);

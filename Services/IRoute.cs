@@ -1,4 +1,4 @@
-namespace test_backend.Services;
+namespace NetCoreTemplate.Services;
 
 public interface IRoute
 {

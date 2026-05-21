@@ -1,4 +1,4 @@
-namespace test_backend.Models;
+namespace NetCoreTemplate.Models;
 
 public class CarModel
 {

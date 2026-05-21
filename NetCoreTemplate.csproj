@@ -4,7 +4,7 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>test_backend</RootNamespace>
+        <RootNamespace>NetCoreTemplate</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using test_backend.Models;
-using test_backend.Services;
+using NetCoreTemplate.Models;
+using NetCoreTemplate.Services;
 
-namespace test_backend.Routes;
+namespace NetCoreTemplate.Routes;
 
 public class CarsRoute : IRoute
 {
-    private static readonly HashSet<Car> Cars = new();
+    private static readonly HashSet<Car> Cars = [];
 
     public void MapRoutes(IEndpointRouteBuilder app)
     {
