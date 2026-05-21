@@ -4,8 +4,14 @@ using NetCoreTemplate.Services;
 
 namespace NetCoreTemplate.Routes;
 
+/// <summary>
+/// Routes allowing the retrieval and mutability of cars stored in the code's memory.
+/// </summary>
 public class CarsRoute : IRoute
 {
+    /// <summary>
+    /// The cars stored in the application's memory.
+    /// </summary>
     private static readonly HashSet<Car> Cars = [];
 
     public void MapRoutes(IEndpointRouteBuilder app)
@@ -35,8 +41,15 @@ public class CarsRoute : IRoute
         return Results.Ok();
     }
 
+    /// <summary>
+    /// A record that adds useful data to a car's data.
+    /// </summary>
+    /// <param name="Data">The data set for the car.</param>
     private record Car(CarModel Data)
     {
+        /// <summary>
+        /// The full name of a car, combining the brand and model into a single string.
+        /// </summary>
         public string FullName => $"{Data.Brand} {Data.Model}";
     };
 }
