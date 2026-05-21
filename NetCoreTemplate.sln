@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-backend", "test-backend.csproj", "{C07BBFD0-0BAA-4765-8900-A4A4E3F6A6E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreTemplate", "NetCoreTemplate.csproj", "{C07BBFD0-0BAA-4765-8900-A4A4E3F6A6E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
