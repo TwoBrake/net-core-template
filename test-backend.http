@@ -5,3 +5,14 @@ GET {{host}}/cars
 ###
 
 GET {{host}}/cars/2
+
+
+###
+
+POST {{host}}/cars
+Content-Type: application/json
+
+{
+  "Brand": "Ford",
+  "Model": "Raptor"
+}
