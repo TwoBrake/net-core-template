@@ -1,0 +1,7 @@
+@host = http://localhost:5186
+
+GET {{host}}/cars
+
+###
+
+GET {{host}}/cars/2
