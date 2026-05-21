@@ -31,12 +31,12 @@ public class CarsRoute : IRoute
 
     private static IResult CreateCar([FromBody] CarModel car)
     {
-        Cars.Add(new Car(car.Brand, car.Model));
+        Cars.Add(new Car(car));
         return Results.Ok();
     }
 
-    private record Car(string Brand, string Model)
+    private record Car(CarModel Data)
     {
-        public string FullName => $"{Brand} {Model}";
+        public string FullName => $"{Data.Brand} {Data.Model}";
     };
 }
