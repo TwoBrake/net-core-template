@@ -11,11 +11,6 @@ namespace NetCoreTemplate.Routes;
 /// </summary>
 public class CarsRoute : IRoute
 {
-    /// <summary>
-    /// The cars stored in the application's memory.
-    /// </summary>
-    private static readonly HashSet<Car> Cars = [];
-
     public void MapRoutes(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/cars");
@@ -26,25 +21,23 @@ public class CarsRoute : IRoute
         group.MapPost("/", CreateCar);
     }
 
-    private static IResult GetCars()
+    private static async Task<IResult> GetCars(DatabaseContext db)
     {
-        return Results.Ok(Cars);
+        var cars = await db.Cars.ToArrayAsync();
+        return Results.Ok(cars);
     }
 
-    private static IResult GetCar(int id)
+    private static async Task<IResult> GetCar(int id, DatabaseContext db)
     {
-        var car = Cars.ElementAtOrDefault(id - 1);
-        return car is not null ? Results.Ok(car.FullName) : Results.NotFound();
+        var car = await db.Cars.FindAsync(id);
+        return car is not null ? Results.Ok(new Car(car).FullName) : Results.NotFound();
     }
 
-    private static async Task<CarModel[]> Test(DatabaseContext db)
+    private static async Task<IResult> CreateCar([FromBody] CarModel car, DatabaseContext db)
     {
-        return await db.Cars.ToArrayAsync();
-    }
+        await db.Cars.AddAsync(car);
+        await db.SaveChangesAsync();
 
-    private static IResult CreateCar([FromBody] CarModel car)
-    {
-        Cars.Add(new Car(car));
         return Results.Ok();
     }
 

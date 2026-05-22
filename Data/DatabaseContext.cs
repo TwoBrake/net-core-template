@@ -3,11 +3,8 @@ using NetCoreTemplate.Models;
 
 namespace NetCoreTemplate.Data;
 
-public class DatabaseContext : DbContext
+public class DatabaseContext(DbContextOptions<DatabaseContext> options)
+    : DbContext(options)
 {
     public DbSet<CarModel> Cars => Set<CarModel>();
-
-    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-    {
-    }
 }

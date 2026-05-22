@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace NetCoreTemplate.Models;
 
 /// <summary>
@@ -5,12 +7,17 @@ namespace NetCoreTemplate.Models;
 /// </summary>
 public class CarModel
 {
+    [Key] public int Id { get; init; }
+
     /// <summary>
     /// The brand of the car.
     /// </summary>
-    public required string Brand { get; set; }
+    [MaxLength(100)]
+    public required string Brand { get; init; }
+
     /// <summary>
     /// The model of the car.
     /// </summary>
-    public required string Model { get; set; }
+    [MaxLength(100)]
+    public required string Model { get; init; }
 }

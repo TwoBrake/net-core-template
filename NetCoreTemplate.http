@@ -4,7 +4,7 @@ GET {{HOST}}/cars
 
 ###
 
-GET {{HOST}}/cars/2
+GET {{HOST}}/cars/1
 
 
 ###
