@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NetCoreTemplate.Data;
 using NetCoreTemplate.Models;
 using NetCoreTemplate.Services;
 
@@ -33,6 +35,11 @@ public class CarsRoute : IRoute
     {
         var car = Cars.ElementAtOrDefault(id - 1);
         return car is not null ? Results.Ok(car.FullName) : Results.NotFound();
+    }
+
+    private static async Task<CarModel[]> Test(DatabaseContext db)
+    {
+        return await db.Cars.ToArrayAsync();
     }
 
     private static IResult CreateCar([FromBody] CarModel car)

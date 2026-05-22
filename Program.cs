@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using NetCoreTemplate.Data;
 using NetCoreTemplate.Routes;
 using NetCoreTemplate.Services;
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Load Services
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IRoute, CarsRoute>();
+builder.Services.AddDbContext<DatabaseContext>(options => { options.UseNpgsql(builder.Configuration.GetConnectionString("Default")); });
 
 var app = builder.Build();
 
