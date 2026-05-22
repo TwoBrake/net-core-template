@@ -18,7 +18,9 @@ public class CarsRoute : IRoute
         group.MapGet("/", GetCars);
         group.MapGet("/{id:int}", GetCar);
 
-        group.MapPost("/", CreateCar);
+        group.MapPost("/", AddCar);
+
+        group.MapDelete("/{id:int}", DeleteCar);
     }
 
     private static async Task<IResult> GetCars(DatabaseContext db)
@@ -33,12 +35,26 @@ public class CarsRoute : IRoute
         return car is not null ? Results.Ok(new Car(car).FullName) : Results.NotFound();
     }
 
-    private static async Task<IResult> CreateCar([FromBody] CarModel car, DatabaseContext db)
+    private static async Task<IResult> AddCar([FromBody] CarModel car, DatabaseContext db)
     {
         await db.Cars.AddAsync(car);
         await db.SaveChangesAsync();
 
         return Results.Ok();
+    }
+
+    private static async Task<IResult> DeleteCar(int id, DatabaseContext db)
+    {
+        var car = await db.Cars.FindAsync(id);
+        if (car is null)
+        {
+            return Results.NotFound();
+        }
+
+        db.Remove(car);
+        await db.SaveChangesAsync();
+
+        return Results.NoContent();
     }
 
     /// <summary>
