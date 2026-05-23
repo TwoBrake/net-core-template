@@ -1,3 +1,4 @@
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using NetCoreTemplate.Data;
 using NetCoreTemplate.Routes;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IRoute, CarsRoute>();
 builder.Services.AddDbContext<DatabaseContext>(options => { options.UseNpgsql(builder.Configuration.GetConnectionString("Default")); });
+builder.Services.AddMapster();
 
 var app = builder.Build();
 

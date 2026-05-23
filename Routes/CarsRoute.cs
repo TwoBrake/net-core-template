@@ -1,5 +1,7 @@
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NetCoreTemplate.Contracts;
 using NetCoreTemplate.Data;
 using NetCoreTemplate.Models;
 using NetCoreTemplate.Services;
@@ -11,6 +13,9 @@ namespace NetCoreTemplate.Routes;
 /// </summary>
 public class CarsRoute : IRoute
 {
+    /// <summary>
+    /// Register the routes to the app.
+    /// </summary>
     public void MapRoutes(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/cars");
@@ -20,29 +25,60 @@ public class CarsRoute : IRoute
 
         group.MapPost("/", AddCar);
 
+        group.MapPatch("/{id:int}", UpdateCar);
+
         group.MapDelete("/{id:int}", DeleteCar);
     }
 
+    /// <summary>
+    /// Retrieves all the cars in the database.
+    /// </summary>
     private static async Task<IResult> GetCars(DatabaseContext db)
     {
         var cars = await db.Cars.ToArrayAsync();
         return Results.Ok(cars);
     }
 
+    /// <summary>
+    /// Retrieves a single car by its ID from the database.
+    /// </summary>
     private static async Task<IResult> GetCar(int id, DatabaseContext db)
     {
         var car = await db.Cars.FindAsync(id);
         return car is not null ? Results.Ok(new Car(car).FullName) : Results.NotFound();
     }
 
-    private static async Task<IResult> AddCar([FromBody] CarModel car, DatabaseContext db)
+    /// <summary>
+    /// Adds a new car to the database.
+    /// </summary>
+    private static async Task<IResult> AddCar([FromBody] CarCreateRequest car, DatabaseContext db)
     {
-        await db.Cars.AddAsync(car);
+        await db.Cars.AddAsync(ConvertToCar(car));
         await db.SaveChangesAsync();
 
         return Results.Ok();
     }
 
+    /// <summary>
+    /// Updates an existing car from the database.
+    /// </summary>
+    private static async Task<IResult> UpdateCar(int id, [FromBody] CarUpdateRequest dto, DatabaseContext db)
+    {
+        var car = await db.Cars.FindAsync(id);
+        if (car is null)
+        {
+            return Results.NotFound();
+        }
+
+        dto.Adapt(car); // Replace entry's values with any values from the body that are no null.
+
+        await db.SaveChangesAsync();
+        return Results.Ok();
+    }
+
+    /// <summary>
+    /// Deletes an existing car from the database.
+    /// </summary>
     private static async Task<IResult> DeleteCar(int id, DatabaseContext db)
     {
         var car = await db.Cars.FindAsync(id);
@@ -55,6 +91,16 @@ public class CarsRoute : IRoute
         await db.SaveChangesAsync();
 
         return Results.NoContent();
+    }
+
+    /// <summary>
+    /// Converts the body of a car create request to a car model to be directly sent to the database.
+    /// </summary>
+    /// <param name="car">The car create request.</param>
+    /// <returns>The car model.</returns>
+    private static CarModel ConvertToCar(CarCreateRequest car)
+    {
+        return new CarModel { Brand = car.Brand, Model = car.Model };
     }
 
     /// <summary>

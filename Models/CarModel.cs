@@ -7,17 +7,21 @@ namespace NetCoreTemplate.Models;
 /// </summary>
 public class CarModel
 {
-    [Key] public int Id { get; init; }
+    /// <summary>
+    /// The primary key, or ID of the car's entry.
+    /// </summary>
+    [Key]
+    public int Id { get; init; }
 
     /// <summary>
     /// The brand of the car.
     /// </summary>
     [MaxLength(100)]
-    public required string Brand { get; init; }
+    public required string Brand { get; set; }
 
     /// <summary>
     /// The model of the car.
     /// </summary>
     [MaxLength(100)]
-    public required string Model { get; init; }
+    public required string Model { get; set; }
 }
